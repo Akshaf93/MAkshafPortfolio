@@ -46,7 +46,7 @@ const data = {
       details: "Initial-design of UGV rescue drone, UGV and launching platform in SolidWorks."
     },
     {
-      company: "Team",
+      company: "Team Raftar NUST Baja SAE",
       dept: "Aerodynamics",
       role: "Member",
       date: "Oct 25 - PRES",
