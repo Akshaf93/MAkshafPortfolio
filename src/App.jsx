@@ -40,17 +40,13 @@ const data = {
     scale: "1:1",
     contact: "mmebhoob.ug24mme@student.nust.edu.pk",
     location: "Islamabad, Pakistan",
-    rev: "A.09"
+    rev: "A.10"
   },
   notes: [
     "1. ALL DIMENSIONS IN MILLIMETERS UNLESS OTHERWISE SPECIFIED.",
     "2. FOCUS: KINEMATIC DESIGN, FEA, & CFD.",
     "3. METHODOLOGY: FIRST-PRINCIPLES PHYSICS & ITERATIVE PROTOTYPING.",
     "4. MATERIAL: INTELLECTUAL CURIOSITY & RIGOROUS ANALYSIS."
-  ],
-  qa_log: [
-    { id: "QA-01", inspector: "Dr. S. Khan", role: "Head of Aerodynamics", status: "PASSED", note: "Akshaf demonstrates exceptional intuition for fluid mechanics. His mesh refinement strategy reduced simulation time by 40% without compromising accuracy." },
-    { id: "QA-02", inspector: "Engr. M. Ali", role: "Nexe Team Lead", status: "APPROVED", note: " Delivered the UGV suspension redesign 2 weeks ahead of schedule. The differential bar mechanism performed flawlessly in field tests." }
   ],
   skills: [
     { cat: "ANALYSIS", items: [
@@ -187,15 +183,17 @@ const EngineeringChart = ({ data, isBlueprint }) => {
   if (!data) return null;
 
   const width = 300;
-  const height = 150;
-  const padding = 20;
+  const height = 200; // Increased height to accommodate labels
+  const margin = { top: 20, right: 20, bottom: 40, left: 40 }; // Added margins
   
   const maxX = Math.max(...data.points.map(p => p.x));
   const maxY = 100; 
   
   const pointsStr = data.points.map(p => {
-      const x = padding + (p.x / maxX) * (width - 2 * padding);
-      const y = height - padding - (p.y / maxY) * (height - 2 * padding);
+      // Scale x to fit within margins
+      const x = margin.left + (p.x / maxX) * (width - margin.left - margin.right);
+      // Scale y to fit within margins (inverted)
+      const y = (height - margin.bottom) - (p.y / maxY) * (height - margin.top - margin.bottom);
       return `${x},${y}`;
   }).join(" ");
 
@@ -205,9 +203,9 @@ const EngineeringChart = ({ data, isBlueprint }) => {
             <TrendingUp size={14} /> {data.title}
         </div>
         <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
-            {/* Grid Lines */}
-            <line x1={padding} y1={padding} x2={padding} y2={height - padding} stroke="currentColor" strokeWidth="1" />
-            <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="currentColor" strokeWidth="1" />
+            {/* Axes */}
+            <line x1={margin.left} y1={margin.top} x2={margin.left} y2={height - margin.bottom} stroke="currentColor" strokeWidth="1" />
+            <line x1={margin.left} y1={height - margin.bottom} x2={width - margin.right} y2={height - margin.bottom} stroke="currentColor" strokeWidth="1" />
             
             {/* The Line */}
             <polyline 
@@ -219,16 +217,16 @@ const EngineeringChart = ({ data, isBlueprint }) => {
             
             {/* Points */}
             {data.points.map((p, i) => {
-                 const x = padding + (p.x / maxX) * (width - 2 * padding);
-                 const y = height - padding - (p.y / maxY) * (height - 2 * padding);
+                 const x = margin.left + (p.x / maxX) * (width - margin.left - margin.right);
+                 const y = (height - margin.bottom) - (p.y / maxY) * (height - margin.top - margin.bottom);
                  return (
                     <circle key={i} cx={x} cy={y} r="3" fill="currentColor" />
                  )
             })}
             
             {/* Labels */}
-            <text x={width/2} y={height} fill="currentColor" fontSize="10" textAnchor="middle" fontFamily="monospace">{data.xLabel}</text>
-            <text x={0} y={height/2} fill="currentColor" fontSize="10" textAnchor="middle" fontFamily="monospace" transform={`rotate(-90, 10, ${height/2})`}>{data.yLabel}</text>
+            <text x={width / 2} y={height - 10} fill="currentColor" fontSize="10" textAnchor="middle" fontFamily="monospace">{data.xLabel}</text>
+            <text x={10} y={height / 2} fill="currentColor" fontSize="10" textAnchor="middle" fontFamily="monospace" transform={`rotate(-90, 10, ${height / 2})`}>{data.yLabel}</text>
         </svg>
     </div>
   );
@@ -318,157 +316,160 @@ const ProjectModal = ({ project, onClose, isBlueprint }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm print:hidden overflow-y-auto"
+      // Updated Wrapper for Centering
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm print:hidden"
       onClick={onClose}
     >
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        className={`relative w-full max-w-6xl my-8 border-2 shadow-2xl flex flex-col ${isBlueprint ? 'bg-[#002B5B] text-white border-white' : 'bg-white text-black border-black'}`}
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Modal Header */}
-        <div className={`border-b-2 border-current p-4 flex justify-between items-start ${isBlueprint ? 'bg-[#001D3B]' : 'bg-slate-100'}`}>
-           <div>
-             <div className="flex items-center gap-2 mb-1">
-                <ZoomIn size={16} />
-                <span className="font-mono text-xs font-bold opacity-70">DATASHEET VIEW</span>
-             </div>
-             <h2 className={`font-black font-serif text-3xl uppercase leading-none ${isBlueprint ? 'text-white' : 'text-black'}`}>{project.title}</h2>
-             <div className="font-mono text-xs font-bold mt-2 flex gap-4">
-                <span className="border border-current px-1">ID: {project.id}</span>
-                <span className="flex items-center gap-1"><Clock size={12}/> {project.timeline}</span>
-                <span className="flex items-center gap-1"><User size={12}/> {project.role}</span>
-             </div>
-           </div>
-           <button onClick={onClose} className="hover:bg-red-500 hover:text-white border border-current p-1 transition-colors">
-             <X size={24} />
-           </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-8">
-          <div className="grid lg:grid-cols-12 gap-8">
-            
-            {/* LEFT COLUMN: VISUALS */}
-            <div className="lg:col-span-7 flex flex-col gap-6">
-              {/* Main Visual Stage */}
-              {show3D ? (
-                <ThreeDViewer src={project.glbModel} isBlueprint={isBlueprint} />
-              ) : (
-                <div className="border-2 border-current p-1 bg-black/5 relative group">
-                   <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-current opacity-50"/>
-                   <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-current opacity-50"/>
-                   <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-current opacity-50"/>
-                   <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-current opacity-50"/>
-                   
-                  <img 
-                    src={activeImage} 
-                    alt={project.title} 
-                    className={`w-full h-[400px] object-cover border border-current`} 
-                    style={{ filter: isBlueprint ? 'grayscale(80%) contrast(120%)' : 'grayscale(20%) contrast(110%)' }}
-                  />
-                </div>
-              )}
-
-              {/* Thumbnail Strip & 3D Toggle */}
-              <div className="flex gap-3 overflow-x-auto pb-2">
-                 {galleryImages.map((img, idx) => (
-                   <button
-                     key={idx}
-                     onClick={() => {setActiveImage(img); setShow3D(false);}} 
-                     className={`flex-shrink-0 w-24 h-20 border-2 transition-all relative ${activeImage === img && !show3D ? 'border-current ring-1 ring-current ring-offset-2' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                   >
-                     <img src={img} className={`w-full h-full object-cover`} style={{ filter: isBlueprint ? 'grayscale(80%) invert(0.1) contrast(1.2)' : 'grayscale(0.1) contrast(1.1)' }}/>
-                     <div className="absolute bottom-0 right-0 bg-black text-white text-[9px] px-1 font-mono">0{idx+1}</div>
-                   </button>
-                 ))}
-                 {hasThreeD && (
-                    <button
-                      onClick={() => setShow3D(true)}
-                      className={`flex-shrink-0 w-24 h-20 border-2 transition-all relative flex items-center justify-center ${show3D ? 'border-current ring-1 ring-current ring-offset-2' : 'border-transparent opacity-60 hover:opacity-100'} ${isBlueprint ? 'bg-[#003B7A]' : 'bg-gray-100'}`}
-                    >
-                       <Box size={32} className={show3D ? (isBlueprint ? 'text-white' : 'text-blue-500') : (isBlueprint ? 'text-gray-400' : 'text-gray-500')} />
-                       <div className="absolute bottom-0 right-0 bg-black text-white text-[9px] px-1 font-mono">3D</div>
-                    </button>
-                 )}
+      <div className="flex min-h-full items-center justify-center p-4">
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          className={`relative w-full max-w-6xl border-2 shadow-2xl flex flex-col ${isBlueprint ? 'bg-[#002B5B] text-white border-white' : 'bg-white text-black border-black'}`}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Modal Header */}
+          <div className={`border-b-2 border-current p-4 flex justify-between items-start ${isBlueprint ? 'bg-[#001D3B]' : 'bg-slate-100'}`}>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                  <ZoomIn size={16} />
+                  <span className="font-mono text-xs font-bold opacity-70">DATASHEET VIEW</span>
               </div>
-              
-              {/* Description */}
-              <div className="border-t-2 border-current pt-6">
-                  <div className="flex items-center gap-2 font-bold font-mono text-sm mb-3 uppercase">
-                      <FileText size={16} /> Engineering Analysis
-                  </div>
-                  <p className={`font-serif leading-relaxed text-sm md:text-base opacity-90 text-justify columns-1 ${isBlueprint ? 'text-white text-shadow-sm' : 'text-black'}`}>
-                    {project.fullDetails || project.desc}
-                  </p>
+              <h2 className={`font-black font-serif text-3xl uppercase leading-none ${isBlueprint ? 'text-white' : 'text-black'}`}>{project.title}</h2>
+              <div className="font-mono text-xs font-bold mt-2 flex gap-4">
+                  <span className="border border-current px-1">ID: {project.id}</span>
+                  <span className="flex items-center gap-1"><Clock size={12}/> {project.timeline}</span>
+                  <span className="flex items-center gap-1"><User size={12}/> {project.role}</span>
               </div>
             </div>
-            
-            {/* RIGHT COLUMN: DATA */}
-            <div className="lg:col-span-5 flex flex-col gap-8">
+            <button onClick={onClose} className="hover:bg-red-500 hover:text-white border border-current p-1 transition-colors">
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="p-8">
+            <div className="grid lg:grid-cols-12 gap-8">
               
-              {/* Specs Table */}
-              <div className="border-2 border-current">
-                 <div className={`p-2 font-bold font-mono text-xs flex justify-between items-center border-b-2 border-current ${isBlueprint ? 'bg-white text-[#002B5B]' : 'bg-black text-white'}`}>
-                    <span>TECHNICAL SPECIFICATIONS</span>
-                    <Activity size={14} />
-                 </div>
-                 <div className="divide-y divide-current/20">
-                    {project.technicalSpecs && Object.entries(project.technicalSpecs).map(([key, val]) => (
-                        <div key={key} className={`flex justify-between p-2 font-mono text-xs ${isBlueprint ? 'text-white' : 'text-black'}`}>
-                            <span className="opacity-70 font-bold">{key.toUpperCase()}</span>
-                            <span className="font-bold">{val}</span>
-                        </div>
-                    ))}
-                 </div>
-              </div>
+              {/* LEFT COLUMN: VISUALS */}
+              <div className="lg:col-span-7 flex flex-col gap-6">
+                {/* Main Visual Stage */}
+                {show3D ? (
+                  <ThreeDViewer src={project.glbModel} isBlueprint={isBlueprint} />
+                ) : (
+                  <div className="border-2 border-current p-1 bg-black/5 relative group">
+                    <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-current opacity-50"/>
+                    <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-current opacity-50"/>
+                    <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-current opacity-50"/>
+                    <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-current opacity-50"/>
+                    
+                    <img 
+                      src={activeImage} 
+                      alt={project.title} 
+                      className={`w-full h-[400px] object-cover border border-current`} 
+                      style={{ filter: isBlueprint ? 'grayscale(80%) contrast(120%)' : 'grayscale(20%) contrast(110%)' }}
+                    />
+                  </div>
+                )}
 
-              {/* Engineering Chart */}
-              {project.graphData && (
-                <EngineeringChart data={project.graphData} isBlueprint={isBlueprint} />
-              )}
-
-              {/* Challenges */}
-              <div>
-                 <div className="font-bold font-mono text-xs mb-3 uppercase flex items-center gap-2 border-b border-current pb-1">
-                    <AlertTriangle size={14} className="text-orange-500" /> Engineering Challenges
-                 </div>
-                 <ul className="space-y-2">
-                    {project.challenges && project.challenges.map((challenge, i) => (
-                        <li key={i} className={`text-xs font-mono flex gap-2 items-start ${isBlueprint ? 'text-white text-shadow-sm' : 'text-black'}`}>
-                            <span className="mt-0.5 text-orange-500">►</span>
-                            <span className="leading-tight">{challenge}</span>
-                        </li>
-                    ))}
-                 </ul>
-              </div>
-
-              {/* BOM */}
-              <div className={`border border-current p-4 ${isBlueprint ? 'bg-[#003B7A]' : 'bg-current/5'}`}>
-                 <div className="font-mono text-xs font-bold mb-2 border-b border-current pb-1 flex justify-between">
-                   <span>BILL OF MATERIALS (ABBR.)</span>
-                   <Settings size={14} />
-                 </div>
-                 {project.bom.map((item, i) => (
-                   <div key={i} className={`flex justify-between font-mono text-xs py-1 border-b border-dashed border-current/30 last:border-0 ${isBlueprint ? 'text-white' : 'text-black'}`}>
-                     <span>{item.item}</span>
-                     <span className="font-bold">{item.qty}</span>
-                   </div>
-                 ))}
+                {/* Thumbnail Strip & 3D Toggle */}
+                <div className="flex gap-3 overflow-x-auto pb-2">
+                  {galleryImages.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {setActiveImage(img); setShow3D(false);}} 
+                      className={`flex-shrink-0 w-24 h-20 border-2 transition-all relative ${activeImage === img && !show3D ? 'border-current ring-1 ring-current ring-offset-2' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                    >
+                      <img src={img} className={`w-full h-full object-cover`} style={{ filter: isBlueprint ? 'grayscale(80%) invert(0.1) contrast(1.2)' : 'grayscale(0.1) contrast(1.1)' }}/>
+                      <div className="absolute bottom-0 right-0 bg-black text-white text-[9px] px-1 font-mono">0{idx+1}</div>
+                    </button>
+                  ))}
+                  {hasThreeD && (
+                      <button
+                        onClick={() => setShow3D(true)}
+                        className={`flex-shrink-0 w-24 h-20 border-2 transition-all relative flex items-center justify-center ${show3D ? 'border-current ring-1 ring-current ring-offset-2' : 'border-transparent opacity-60 hover:opacity-100'} ${isBlueprint ? 'bg-[#003B7A]' : 'bg-gray-100'}`}
+                      >
+                        <Box size={32} className={show3D ? (isBlueprint ? 'text-white' : 'text-blue-500') : (isBlueprint ? 'text-gray-400' : 'text-gray-500')} />
+                        <div className="absolute bottom-0 right-0 bg-black text-white text-[9px] px-1 font-mono">3D</div>
+                      </button>
+                  )}
+                </div>
+                
+                {/* Description */}
+                <div className="border-t-2 border-current pt-6">
+                    <div className="flex items-center gap-2 font-bold font-mono text-sm mb-3 uppercase">
+                        <FileText size={16} /> Engineering Analysis
+                    </div>
+                    <p className={`font-serif leading-relaxed text-sm md:text-base opacity-90 text-justify columns-1 ${isBlueprint ? 'text-white text-shadow-sm' : 'text-black'}`}>
+                      {project.fullDetails || project.desc}
+                    </p>
+                </div>
               </div>
               
+              {/* RIGHT COLUMN: DATA */}
+              <div className="lg:col-span-5 flex flex-col gap-8">
+                
+                {/* Specs Table */}
+                <div className="border-2 border-current">
+                  <div className={`p-2 font-bold font-mono text-xs flex justify-between items-center border-b-2 border-current ${isBlueprint ? 'bg-white text-[#002B5B]' : 'bg-black text-white'}`}>
+                      <span>TECHNICAL SPECIFICATIONS</span>
+                      <Activity size={14} />
+                  </div>
+                  <div className="divide-y divide-current/20">
+                      {project.technicalSpecs && Object.entries(project.technicalSpecs).map(([key, val]) => (
+                          <div key={key} className={`flex justify-between p-2 font-mono text-xs ${isBlueprint ? 'text-white' : 'text-black'}`}>
+                              <span className="opacity-70 font-bold">{key.toUpperCase()}</span>
+                              <span className="font-bold">{val}</span>
+                          </div>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Engineering Chart */}
+                {project.graphData && (
+                  <EngineeringChart data={project.graphData} isBlueprint={isBlueprint} />
+                )}
+
+                {/* Challenges */}
+                <div>
+                  <div className="font-bold font-mono text-xs mb-3 uppercase flex items-center gap-2 border-b border-current pb-1">
+                      <AlertTriangle size={14} className="text-orange-500" /> Engineering Challenges
+                  </div>
+                  <ul className="space-y-2">
+                      {project.challenges && project.challenges.map((challenge, i) => (
+                          <li key={i} className={`text-xs font-mono flex gap-2 items-start ${isBlueprint ? 'text-white text-shadow-sm' : 'text-black'}`}>
+                              <span className="mt-0.5 text-orange-500">►</span>
+                              <span className="leading-tight">{challenge}</span>
+                          </li>
+                      ))}
+                  </ul>
+                </div>
+
+                {/* BOM */}
+                <div className={`border border-current p-4 ${isBlueprint ? 'bg-[#003B7A]' : 'bg-current/5'}`}>
+                  <div className="font-mono text-xs font-bold mb-2 border-b border-current pb-1 flex justify-between">
+                    <span>BILL OF MATERIALS (ABBR.)</span>
+                    <Settings size={14} />
+                  </div>
+                  {project.bom.map((item, i) => (
+                    <div key={i} className={`flex justify-between font-mono text-xs py-1 border-b border-dashed border-current/30 last:border-0 ${isBlueprint ? 'text-white' : 'text-black'}`}>
+                      <span>{item.item}</span>
+                      <span className="font-bold">{item.qty}</span>
+                    </div>
+                  ))}
+                </div>
+                
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div className={`border-t-2 border-current p-2 flex justify-between items-center font-mono text-[10px] ${isBlueprint ? 'bg-[#001D3B] text-white' : 'bg-stone-100 text-black'}`}>
-            <div>SHEET 1 OF 1</div>
-            <div>CAD FILE: {project.title.replace(/\s+/g, '_').toUpperCase()}.ASM</div>
-            <div>APPROVED BY: M. AKSHAF</div>
-        </div>
+          
+          <div className={`border-t-2 border-current p-2 flex justify-between items-center font-mono text-[10px] ${isBlueprint ? 'bg-[#001D3B] text-white' : 'bg-stone-100 text-black'}`}>
+              <div>SHEET 1 OF 1</div>
+              <div>CAD FILE: {project.title.replace(/\s+/g, '_').toUpperCase()}.ASM</div>
+              <div>APPROVED BY: M. AKSHAF</div>
+          </div>
 
-      </motion.div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
@@ -715,28 +716,10 @@ const App = () => {
                     </div>
                 </div>
 
-                <div className={`border-2 border-current mb-12 ${isBlueprint ? 'bg-[#002B5B]' : 'bg-white'}`}>
-                    <div className={`border-b-2 border-current p-2 font-bold text-sm uppercase flex justify-between items-center ${isBlueprint ? 'bg-[#001D3B]' : 'bg-stone-200'}`}>
-                        <span>5.0 Quality Control Log (References)</span>
-                        <Stamp size={16}/>
-                    </div>
-                    {data.qa_log.map((log, i) => (
-                        <div key={i} className="p-4 border-b border-current/20 last:border-0 flex gap-4">
-                           <div className={`border-2 border-current w-16 h-16 flex items-center justify-center flex-shrink-0 rounded-full rotate-[-12deg] font-black text-[10px] border-double ${isBlueprint ? 'text-green-400 border-green-400' : 'text-red-700 border-red-700 opacity-80'}`}>
-                              {log.status}
-                           </div>
-                           <div>
-                              <div className="font-bold text-sm mb-1">{log.inspector} <span className="opacity-60 font-mono text-xs"> // {log.role}</span></div>
-                              <p className="font-serif italic text-sm opacity-80">"{log.note}"</p>
-                           </div>
-                        </div>
-                    ))}
-                </div>
-
                 <div>
                     <div className="flex items-center gap-2 mb-4">
                         <Ruler size={18} />
-                        <span className="font-bold text-sm uppercase underline decoration-2 underline-offset-4">6.0 Detail Views</span>
+                        <span className="font-bold text-sm uppercase underline decoration-2 underline-offset-4">5.0 Detail Views</span>
                     </div>
                     
                     {data.projects.map((p, i) => (
@@ -769,22 +752,8 @@ const App = () => {
 
             </div>
         </div>
+
       </div>
-      
-      <style>{`
-        @media print {
-          @page { margin: 0.5cm; }
-          body { -webkit-print-color-adjust: exact; background-color: white !important; color: black !important; }
-          .print\\:hidden { display: none !important; }
-        }
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100%); }
-        }
-        .animate-scanline {
-          animation: scanline 8s linear infinite;
-        }
-      `}</style>
     </div>
   );
 };
