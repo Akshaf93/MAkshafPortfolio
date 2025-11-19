@@ -19,7 +19,12 @@ import {
   Moon,
   Cpu,
   Activity,
-  Terminal
+  Terminal,
+  Image as ImageIcon,
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+  User
 } from 'lucide-react';
 
 // --- Data ---
@@ -31,7 +36,7 @@ const data = {
     scale: "1:1",
     contact: "mmebhoob.ug24mme@student.nust.edu.pk",
     location: "Islamabad, Pakistan",
-    rev: "A.04"
+    rev: "A.07"
   },
   notes: [
     "1. ALL DIMENSIONS IN MILLIMETERS UNLESS OTHERWISE SPECIFIED.",
@@ -41,22 +46,28 @@ const data = {
   ],
   skills: [
     { cat: "ANALYSIS", items: [
-      { name: "ANSYS Fluent", level: 90 }, 
-      { name: "FEA Static/Transient", level: 85 }, 
-      { name: "MATLAB Simulink", level: 80 }, 
-      { name: "Python (SciPy)", level: 75 }
+      "ANSYS Fluent", 
+      "FEA Static/Transient", 
+      "MATLAB Simulink", 
+      "Python (SciPy)",
+      "CFD",
+      "Thermal Analysis"
     ]},
     { cat: "DESIGN", items: [
-      { name: "SolidWorks (CSWP)", level: 95 }, 
-      { name: "Catia V5", level: 70 }, 
-      { name: "GD&T (ASME Y14.5)", level: 85 }, 
-      { name: "DFM/DFA", level: 80 }
+      "SolidWorks (CSWP)", 
+      "Catia V5", 
+      "GD&T (ASME Y14.5)", 
+      "DFM/DFA",
+      "Generative Design",
+      "Surface Modeling"
     ]},
     { cat: "FABRICATION", items: [
-      { name: "CNC (3-Axis)", level: 60 }, 
-      { name: "Injection Molding", level: 65 }, 
-      { name: "Additive (SLA/FDM)", level: 90 }, 
-      { name: "Laser Cutting", level: 95 }
+      "CNC (3-Axis)", 
+      "Injection Molding", 
+      "Additive (SLA/FDM)", 
+      "Laser Cutting",
+      "Rapid Prototyping",
+      "Shop Tools"
     ]}
   ],
   experience: [
@@ -83,88 +94,70 @@ const data = {
       title: "ASME Efx IAm3D Rover",
       spec: "ASSEMBLY: ROBOTICS",
       image: "https://images.unsplash.com/photo-1535378437327-274cc23898e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      gallery: [
+        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1581092335397-9583eb92d232?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+      ],
+      timeline: "Aug 2024 - Oct 2024",
+      role: "Lead Mechanical Design",
       bom: [
         { item: "Material", qty: "Al 6061-T6" },
         { item: "Mass", qty: "4.2 kg" },
-        { item: "Gain", qty: "+40% Travel" }
+        { item: "Actuators", qty: "6x DC Planetary" }
+      ],
+      technicalSpecs: {
+        "Suspension Travel": "150 mm",
+        "Ground Clearance": "120 mm",
+        "Max Gradient": "45 degrees",
+        "Payload Capacity": "2.5 kg",
+        "Factor of Safety": "2.1 (Static)"
+      },
+      challenges: [
+        "Decoupling chassis pitch from suspension articulation.",
+        "Maintaining traction on loose aggregate (sand/gravel).",
+        "Minimizing unsprung mass to improve dynamic response."
       ],
       tools: ["SolidWorks", "Python", "ROS2", "CNC"],
-      desc: "Rocker-bogie suspension implementation. Differential bar averaging for chassis pitch stability. Kinematic synthesis performed to optimize linkage lengths.",
-      fullDetails: "This project addressed the challenge of traversing unstructured terrain. By implementing a rocker-bogie suspension, we decoupled the left and right chassis movement, ensuring all 6 wheels maintain contact with the ground. The differential bar mechanism averages the pitch of the two rockers to stabilize the main chassis payload."
+      desc: "Rocker-bogie suspension implementation. Differential bar averaging for chassis pitch stability.",
+      fullDetails: "This project addressed the challenge of traversing unstructured terrain. By implementing a rocker-bogie suspension, we decoupled the left and right chassis movement, ensuring all 6 wheels maintain contact with the ground. The differential bar mechanism averages the pitch of the two rockers to stabilize the main chassis payload, crucial for the onboard LiDAR mapping sensors."
     },
     {
       id: "VIEW B-B",
       title: "CENTRIFUGAL COMPRESSOR",
       spec: "SUB-ASSY: TURBOMACHINERY",
       image: "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      gallery: [
+        "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+      ],
+      timeline: "Jan 2024 - Mar 2024",
+      role: "CFD Analyst",
       bom: [
         { item: "Speed", qty: "80k RPM" },
         { item: "Ratio", qty: "3.5:1" },
         { item: "Solver", qty: "ANSYS CFX" }
       ],
+      technicalSpecs: {
+        "Mass Flow Rate": "0.05 kg/s",
+        "Isentropic Eff": "78%",
+        "Pressure Ratio": "3.5 : 1",
+        "Blade Count": "12 Main / 12 Splitter",
+        "Tip Speed": "450 m/s"
+      },
+      challenges: [
+        "Mitigating shock wave formation at impeller tips.",
+        "Delaying stall onset at low mass flow rates.",
+        "Balancing structural integrity with aerodynamic profile."
+      ],
       tools: ["ANSYS CFX", "MATLAB", "TurboGrid"],
-      desc: "RANS simulation (k-epsilon) of impeller tip flow separation. Iterative optimization of blade backsweep angle delayed stall onset by 1200 RPM.",
-      fullDetails: "The primary objective was to delay stall onset in a micro-turbine compressor. Using ANSYS CFX, I modeled the full rotor-stator interaction. The final design featured a 30-degree backsweep which reduced shock wave intensity at the blade tips."
+      desc: "RANS simulation (k-epsilon) of impeller tip flow separation. Iterative optimization of blade backsweep angle.",
+      fullDetails: "The primary objective was to delay stall onset in a micro-turbine compressor. Using ANSYS CFX, I modeled the full rotor-stator interaction. The final design featured a 30-degree backsweep which reduced shock wave intensity at the blade tips and improved the surge margin by 12%."
     }
   ]
 };
 
 // --- Components ---
-
-const BootSequence = ({ onComplete }) => {
-  const [lines, setLines] = useState([]);
-  
-  useEffect(() => {
-    const sequence = [
-      "INITIALIZING KERNEL...",
-      "CHECKING MEMORY INTEGRITY... OK",
-      "LOADING CAD DRIVERS... OK",
-      "MOUNTING PORTFOLIO_V4.ISO...",
-      "SYSTEM READY."
-    ];
-    
-    let delay = 0;
-    sequence.forEach((line, i) => {
-      setTimeout(() => {
-        setLines(prev => [...prev, line]);
-        if (i === sequence.length - 1) {
-          setTimeout(onComplete, 800);
-        }
-      }, delay);
-      delay += 400 + Math.random() * 400;
-    });
-  }, []);
-
-  return (
-    <motion.div 
-      className="fixed inset-0 z-[100] bg-black text-green-500 font-mono text-xs p-8 flex flex-col justify-end"
-      exit={{ opacity: 0, y: -1000 }}
-      transition={{ duration: 0.5 }}
-    >
-      {lines.map((line, i) => (
-        <div key={i}>{`> ${line}`}</div>
-      ))}
-      <div className="animate-pulse mt-2">_</div>
-    </motion.div>
-  );
-};
-
-const SkillMeter = ({ name, level, isBlueprint }) => (
-  <div className="mb-3">
-    <div className="flex justify-between text-[10px] font-mono font-bold mb-1 opacity-80">
-      <span>{name}</span>
-      <span>{level}%</span>
-    </div>
-    <div className={`h-2 w-full border border-current p-[1px] ${isBlueprint ? 'border-white' : 'border-black'}`}>
-      <motion.div 
-        initial={{ width: 0 }}
-        whileInView={{ width: `${level}%` }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className={`h-full ${isBlueprint ? 'bg-white' : 'bg-black'}`}
-      />
-    </div>
-  </div>
-);
 
 const GDTSymbol = ({ symbol, label }) => (
   <div className="border border-current flex text-xs font-mono font-bold bg-transparent">
@@ -180,56 +173,165 @@ const TitleBlockCell = ({ label, value, className = "" }) => (
   </div>
 );
 
-const ProjectModal = ({ project, onClose, isBlueprint }) => (
-  <motion.div 
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm print:hidden"
-    onClick={onClose}
-  >
+const ProjectModal = ({ project, onClose, isBlueprint }) => {
+  const [activeImage, setActiveImage] = useState(project.image);
+  const galleryImages = [project.image, ...(project.gallery || [])];
+
+  return (
     <motion.div 
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      className={`relative w-full max-w-4xl max-h-[90vh] overflow-y-auto border-2 shadow-2xl p-8 ${isBlueprint ? 'bg-[#003366] text-white border-white' : 'bg-white text-black border-black'}`}
-      onClick={e => e.stopPropagation()}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm print:hidden overflow-y-auto"
+      onClick={onClose}
     >
-      <button onClick={onClose} className="absolute top-4 right-4 hover:opacity-50">
-        <X size={24} />
-      </button>
-
-      <div className="flex items-center gap-2 mb-6 border-b border-current pb-2">
-        <ZoomIn size={20} />
-        <h2 className="font-bold font-mono text-xl uppercase">DETAIL VIEW: {project.id}</h2>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="border border-current p-2">
-          <img src={project.image} alt={project.title} className={`w-full h-64 object-cover ${isBlueprint ? 'grayscale invert' : 'grayscale'}`} />
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className={`relative w-full max-w-6xl my-8 border-2 shadow-2xl flex flex-col ${isBlueprint ? 'bg-[#003366] text-white border-white' : 'bg-white text-black border-black'}`}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Modal Header - Title Block Style */}
+        <div className={`border-b-2 border-current p-4 flex justify-between items-start ${isBlueprint ? 'bg-[#002244]' : 'bg-slate-100'}`}>
+           <div>
+             <div className="flex items-center gap-2 mb-1">
+                <ZoomIn size={16} />
+                <span className="font-mono text-xs font-bold opacity-70">DATASHEET VIEW</span>
+             </div>
+             <h2 className="font-black font-serif text-3xl uppercase leading-none">{project.title}</h2>
+             <div className="font-mono text-xs font-bold mt-2 flex gap-4">
+                <span className="border border-current px-1">ID: {project.id}</span>
+                <span className="flex items-center gap-1"><Clock size={12}/> {project.timeline}</span>
+                <span className="flex items-center gap-1"><User size={12}/> {project.role}</span>
+             </div>
+           </div>
+           <button onClick={onClose} className="hover:bg-red-500 hover:text-white border border-current p-1 transition-colors">
+             <X size={24} />
+           </button>
         </div>
-        
-        <div>
-          <h3 className="font-black text-3xl uppercase mb-4 leading-none">{project.title}</h3>
-          <div className="font-mono text-xs font-bold mb-4 opacity-70">{project.spec}</div>
-          <p className="font-serif leading-relaxed mb-6 text-sm md:text-base">
-            {project.fullDetails || project.desc}
-          </p>
-          
-          <div className="border border-current p-4">
-             <div className="font-mono text-xs font-bold mb-2 border-b border-current pb-1">FULL BILL OF MATERIALS</div>
-             {project.bom.map((item, i) => (
-               <div key={i} className="flex justify-between font-mono text-xs py-1 border-b border-dashed border-current/30">
-                 <span>{item.item}</span>
-                 <span className="font-bold">{item.qty}</span>
-               </div>
-             ))}
+
+        <div className="flex-1 overflow-y-auto p-8">
+          <div className="grid lg:grid-cols-12 gap-8">
+            
+            {/* LEFT COLUMN: VISUALS (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              {/* Main Image Stage */}
+              <div className="border-2 border-current p-1 bg-black/5 relative group">
+                 {/* Crosshairs */}
+                 <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-current opacity-50"/>
+                 <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-current opacity-50"/>
+                 <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-current opacity-50"/>
+                 <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-current opacity-50"/>
+                 
+                <img 
+                  src={activeImage} 
+                  alt={project.title} 
+                  className={`w-full h-[400px] object-cover border border-current ${isBlueprint ? 'grayscale invert contrast-125' : 'grayscale contrast-110'}`} 
+                />
+              </div>
+
+              {/* Thumbnail Strip */}
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                 {galleryImages.map((img, idx) => (
+                   <button
+                     key={idx}
+                     onClick={() => setActiveImage(img)}
+                     className={`flex-shrink-0 w-24 h-20 border-2 transition-all relative ${activeImage === img ? 'border-current ring-1 ring-current ring-offset-2' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                   >
+                     <img src={img} className={`w-full h-full object-cover ${isBlueprint ? 'grayscale invert' : 'grayscale'}`} />
+                     <div className="absolute bottom-0 right-0 bg-black text-white text-[9px] px-1 font-mono">0{idx+1}</div>
+                   </button>
+                 ))}
+              </div>
+              
+              {/* Full Description */}
+              <div className="border-t-2 border-current pt-6">
+                  <div className="flex items-center gap-2 font-bold font-mono text-sm mb-3 uppercase">
+                      <FileText size={16} /> Engineering Analysis
+                  </div>
+                  <p className="font-serif leading-relaxed text-sm md:text-base opacity-90 text-justify columns-1">
+                    {project.fullDetails || project.desc}
+                  </p>
+              </div>
+            </div>
+            
+            {/* RIGHT COLUMN: DATA (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-8">
+              
+              {/* Technical Specs Table */}
+              <div className="border-2 border-current">
+                 <div className={`p-2 font-bold font-mono text-xs flex justify-between items-center border-b-2 border-current ${isBlueprint ? 'bg-white text-[#003366]' : 'bg-black text-white'}`}>
+                    <span>TECHNICAL SPECIFICATIONS</span>
+                    <Activity size={14} />
+                 </div>
+                 <div className="divide-y divide-current/20">
+                    {project.technicalSpecs && Object.entries(project.technicalSpecs).map(([key, val]) => (
+                        <div key={key} className="flex justify-between p-2 font-mono text-xs">
+                            <span className="opacity-70 font-bold">{key.toUpperCase()}</span>
+                            <span className="font-bold">{val}</span>
+                        </div>
+                    ))}
+                    {!project.technicalSpecs && <div className="p-4 text-xs font-mono italic text-center">No quantitative data available.</div>}
+                 </div>
+              </div>
+
+              {/* Challenges */}
+              <div>
+                 <div className="font-bold font-mono text-xs mb-3 uppercase flex items-center gap-2 border-b border-current pb-1">
+                    <AlertTriangle size={14} className="text-orange-500" /> Engineering Challenges
+                 </div>
+                 <ul className="space-y-2">
+                    {project.challenges && project.challenges.map((challenge, i) => (
+                        <li key={i} className="text-xs font-mono flex gap-2 items-start">
+                            <span className="mt-0.5 text-orange-500">►</span>
+                            <span className="leading-tight">{challenge}</span>
+                        </li>
+                    ))}
+                 </ul>
+              </div>
+
+              {/* BOM */}
+              <div className="border border-current p-4 bg-current/5">
+                 <div className="font-mono text-xs font-bold mb-2 border-b border-current pb-1 flex justify-between">
+                   <span>BILL OF MATERIALS (ABBR.)</span>
+                   <Settings size={14} />
+                 </div>
+                 {project.bom.map((item, i) => (
+                   <div key={i} className="flex justify-between font-mono text-xs py-1 border-b border-dashed border-current/30 last:border-0">
+                     <span>{item.item}</span>
+                     <span className="font-bold">{item.qty}</span>
+                   </div>
+                 ))}
+              </div>
+              
+              {/* Tools Used */}
+              <div>
+                <div className="font-mono text-[10px] font-bold opacity-50 mb-2 uppercase">Software & Standards</div>
+                <div className="flex flex-wrap gap-1">
+                    {project.tools.map(tool => (
+                        <span key={tool} className={`border border-current px-2 py-1 text-[10px] font-bold uppercase ${isBlueprint ? 'bg-[#004488]' : 'bg-stone-100'}`}>
+                            {tool}
+                        </span>
+                    ))}
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-      </div>
+        
+        {/* Modal Footer */}
+        <div className={`border-t-2 border-current p-2 flex justify-between items-center font-mono text-[10px] ${isBlueprint ? 'bg-[#002244]' : 'bg-stone-100'}`}>
+            <div>SHEET 1 OF 1</div>
+            <div>CAD FILE: {project.title.replace(/\s+/g, '_').toUpperCase()}.ASM</div>
+            <div>APPROVED BY: M. AKSHAF</div>
+        </div>
+
+      </motion.div>
     </motion.div>
-  </motion.div>
-);
+  );
+};
 
 const ProjectCard = ({ project, onClick, isBlueprint }) => (
   <motion.div 
@@ -262,7 +364,9 @@ const ProjectCard = ({ project, onClick, isBlueprint }) => (
             className={`w-full h-full object-cover transition-all duration-500 ${isBlueprint ? 'grayscale invert opacity-80' : 'grayscale contrast-125'}`} 
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-            <span className="bg-white text-black px-3 py-1 font-bold text-xs font-mono border-2 border-black shadow-[4px_4px_0px_0px_#000]">INSPECT VIEW</span>
+            <span className="bg-white text-black px-3 py-1 font-bold text-xs font-mono border-2 border-black shadow-[4px_4px_0px_0px_#000] flex items-center gap-2">
+               <ImageIcon size={14}/> INSPECT DATASHEET
+            </span>
           </div>
         </div>
         <div className={`absolute bottom-2 right-2 text-[10px] font-mono px-1 border border-current ${isBlueprint ? 'bg-[#003366]' : 'bg-white'}`}>
@@ -310,16 +414,11 @@ const ProjectCard = ({ project, onClick, isBlueprint }) => (
 const App = () => {
   const [isBlueprint, setIsBlueprint] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const handlePrint = () => window.print();
 
   return (
     <div className={`min-h-screen font-sans pb-12 transition-colors duration-500 ${isBlueprint ? 'bg-[#003366] text-white selection:bg-white selection:text-[#003366]' : 'bg-stone-100 text-black selection:bg-blue-200 selection:text-black'}`}>
-      
-      <AnimatePresence>
-        {loading && <BootSequence onComplete={() => setLoading(false)} />}
-      </AnimatePresence>
 
       {/* CRT Scanline Effect (Only in Blueprint Mode) */}
       {isBlueprint && (
@@ -425,7 +524,7 @@ const App = () => {
                      </div>
                 </div>
 
-                {/* SKILLS TABLE (UPDATED WITH METERS) */}
+                {/* SKILLS TABLE (UPDATED TO CHIPS) */}
                 <div className={`border-2 border-current ${isBlueprint ? 'bg-[#003366]' : 'bg-white'}`}>
                     <div className={`font-bold text-xs p-2 uppercase text-center ${isBlueprint ? 'bg-white text-[#003366]' : 'bg-black text-white'}`}>
                         3.0 Technical Specifications
@@ -433,9 +532,11 @@ const App = () => {
                     {data.skills.map((cat, i) => (
                         <div key={i} className="p-4 border-b border-current last:border-0">
                             <div className="font-mono text-xs font-bold opacity-50 mb-3 border-b border-current/20 inline-block">{cat.cat}</div>
-                            <div className="space-y-2">
+                            <div className="flex flex-wrap gap-2">
                                 {cat.items.map((skill, j) => (
-                                  <SkillMeter key={j} name={skill.name} level={skill.level} isBlueprint={isBlueprint} />
+                                  <span key={j} className={`border border-current px-2 py-1 text-xs font-bold font-mono uppercase ${isBlueprint ? 'bg-[#004488] hover:bg-white hover:text-[#003366]' : 'bg-stone-50 hover:bg-black hover:text-white'} transition-colors cursor-default`}>
+                                    {skill}
+                                  </span>
                                 ))}
                             </div>
                         </div>
