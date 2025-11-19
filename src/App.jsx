@@ -17,12 +17,12 @@ import {
 // --- Data ---
 const data = {
   header: {
-    name: "ALEX STERLING",
+    name: "Muhammad Akshaf",
     dwg_no: "AS-2025-01",
     role: "MECHANICAL ENGINEER",
     scale: "1:1",
-    contact: "alex@sterling.eng",
-    location: "San Francisco, CA",
+    contact: "mmehboob.ug24smme@student.nust.edu.pk",
+    location: "Islamabad, Pakistan",
     rev: "A.02"
   },
   notes: [
@@ -33,23 +33,23 @@ const data = {
   ],
   skills: [
     { cat: "ANALYSIS", items: ["ANSYS Fluent", "FEA Static/Transient", "MATLAB Simulink", "Python (SciPy)"] },
-    { cat: "DESIGN", items: ["SolidWorks (CSWP)", "Catia V5", "GD&T (ASME Y14.5)", "DFM/DFA"] },
-    { cat: "FABRICATION", items: ["CNC (3-Axis)", "Injection Molding", "Additive (SLA/FDM)", "Laser Cutting"] }
+    { cat: "DESIGN", items: ["SolidWorks", "Autocad", "DFM/DFA"] },
+    { cat: "FABRICATION", items: ["CNC (3-Axis)", "Machining", "Additive (SLA/FDM)", "Welding"] }
   ],
   experience: [
     {
-      company: "TESLA MOTORS",
-      dept: "HV SYSTEMS",
+      company: "Nexerin",
+      dept: "Mechanical Design",
       role: "Mech. Design Intern",
-      date: "MAY 24 - AUG 24",
-      result: "ECO-402: REDUCED CYCLE TIME 8s",
-      details: "Redesigned HV busbar assemblies. Parametric modeling in Catia V5. Validated thermal performance via steady-state FEA (15% heat reduction)."
+      date: "Oct 25 - Present",
+      result: "Working on several design projects including a rescue drone, UGV and a swarm munitions launching platform.",
+      details: "Initial design of the rescue drone, UGV and launching platform in Solidworks."
     },
     {
-      company: "BERKELEY FLUIDS",
-      dept: "AERO LAB",
-      role: "Research Asst.",
-      date: "JAN 23 - PRES",
+      company: "Team Raftar- BAJA SAE",
+      dept: "Powertrain Subteam",
+      role: "Member",
+      date: "Oct 25 - PRES",
       result: "DOC-101: PUBLISHED PAPER",
       details: "Boundary layer separation study. Designed modular wind tunnel test section (Acrylic/80-20). PIV data processing in MATLAB."
     }
@@ -57,15 +57,15 @@ const data = {
   projects: [
     {
       id: "VIEW A-A",
-      title: "ROVER SUSPENSION MK.IV",
+      title: "ASME Efx IAM3D Rover",
       spec: "ASSEMBLY: ROBOTICS",
       image: "https://images.unsplash.com/photo-1535378437327-274cc23898e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
       bom: [
-        { item: "Material", qty: "Al 6061-T6" },
-        { item: "Mass", qty: "4.2 kg" },
-        { item: "Gain", qty: "+40% Travel" }
+        { item: "Material", qty: "PLA/PETG" },
+        { item: "Mass", qty: "1 kg" },
+        { item: "Gain", qty: "Competition winnning design" }
       ],
-      tools: ["SolidWorks", "Python", "ROS2", "CNC"],
+      tools: ["SolidWorks", "FEA", "Arduino", "3d Printing"],
       desc: "Rocker-bogie suspension implementation. Differential bar averaging for chassis pitch stability. Kinematic synthesis performed to optimize linkage lengths."
     },
     {
