@@ -17,11 +17,11 @@ import {
 // --- Data ---
 const data = {
   header: {
-    name: "Muhammad Akshaf",
+    name: "MUHAMMAD AKSHAF",
     dwg_no: "AS-2025-01",
     role: "MECHANICAL ENGINEER",
     scale: "1:1",
-    contact: "mmehboob.ug24smme@student.nust.edu.pk",
+    contact: "mmebhoob.ug24mme@student.nust.edu.pk",
     location: "Islamabad, Pakistan",
     rev: "A.02"
   },
@@ -33,39 +33,39 @@ const data = {
   ],
   skills: [
     { cat: "ANALYSIS", items: ["ANSYS Fluent", "FEA Static/Transient", "MATLAB Simulink", "Python (SciPy)"] },
-    { cat: "DESIGN", items: ["SolidWorks", "Autocad", "DFM/DFA"] },
-    { cat: "FABRICATION", items: ["CNC (3-Axis)", "Machining", "Additive (SLA/FDM)", "Welding"] }
+    { cat: "DESIGN", items: ["SolidWorks (CSWP)", "Catia V5", "GD&T (ASME Y14.5)", "DFM/DFA"] },
+    { cat: "FABRICATION", items: ["CNC (3-Axis)", "Injection Molding", "Additive (SLA/FDM)", "Laser Cutting"] }
   ],
   experience: [
     {
-      company: "Nexerin",
-      dept: "Mechanical Design",
+      company: "Nexe",
+      dept: "Design Team",
       role: "Mech. Design Intern",
       date: "Oct 25 - Present",
-      result: "Working on several design projects including a rescue drone, UGV and a swarm munitions launching platform.",
-      details: "Initial design of the rescue drone, UGV and launching platform in Solidworks."
+      result: "Initial-design of UGV rescue drone, UGV and launching platform in SolidWorks.",
+      details: "Initial-design of UGV rescue drone, UGV and launching platform in SolidWorks."
     },
     {
-      company: "Team Raftar- BAJA SAE",
-      dept: "Powertrain Subteam",
+      company: "Team",
+      dept: "Aerodynamics",
       role: "Member",
       date: "Oct 25 - PRES",
-      result: "DOC-101: PUBLISHED PAPER",
+      result: "Boundary layer separation study. Designed modular wind tunnel test section (Acrylic/80-20). PIV data processing in MATLAB.",
       details: "Boundary layer separation study. Designed modular wind tunnel test section (Acrylic/80-20). PIV data processing in MATLAB."
     }
   ],
   projects: [
     {
       id: "VIEW A-A",
-      title: "ASME Efx IAM3D Rover",
+      title: "ASME Efx IAm3D Rover",
       spec: "ASSEMBLY: ROBOTICS",
       image: "https://images.unsplash.com/photo-1535378437327-274cc23898e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
       bom: [
-        { item: "Material", qty: "PLA/PETG" },
-        { item: "Mass", qty: "1 kg" },
-        { item: "Gain", qty: "Competition winnning design" }
+        { item: "Material", qty: "Al 6061-T6" },
+        { item: "Mass", qty: "4.2 kg" },
+        { item: "Gain", qty: "+40% Travel" }
       ],
-      tools: ["SolidWorks", "FEA", "Arduino", "3d Printing"],
+      tools: ["SolidWorks", "Python", "ROS2", "CNC"],
       desc: "Rocker-bogie suspension implementation. Differential bar averaging for chassis pitch stability. Kinematic synthesis performed to optimize linkage lengths."
     },
     {
@@ -183,7 +183,8 @@ const App = () => {
         }}
       />
 
-      <div className="max-w-5xl mx-auto p-4 md:p-8 relative z-10">
+      {/* Main container - Changed max-w-5xl to max-w-full */}
+      <div className="max-w-full mx-auto p-4 md:p-8 relative z-10">
         
         {/* TITLE BLOCK HEADER (ISO Style) */}
         <header className="bg-white border-2 border-black shadow-lg mb-8">
