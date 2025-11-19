@@ -38,7 +38,7 @@ const data = {
   ],
   experience: [
     {
-      company: "Nexe",
+      company: "Nexerin",
       dept: "Design Team",
       role: "Mech. Design Intern",
       date: "Oct 25 - Present",
@@ -107,7 +107,7 @@ const ProjectCard = ({ project }) => (
       <div className="font-bold font-serif text-lg uppercase border-b border-black inline-block leading-none">
         {project.id}
       </div>
-      <div className="font-mono text-[10px] uppercase font-bold text-slate-500">
+      <div className="font-mono text-xs uppercase font-bold text-slate-500">
         {project.spec}
       </div>
     </div>
@@ -127,7 +127,7 @@ const ProjectCard = ({ project }) => (
             className="w-full h-full object-cover filter grayscale contrast-125" 
           />
         </div>
-        <div className="absolute bottom-2 right-2 text-[8px] font-mono bg-white px-1 border border-black">
+        <div className="absolute bottom-2 right-2 text-[10px] font-mono bg-white px-1 border border-black">
             SCALE: NTS
         </div>
       </div>
@@ -142,7 +142,7 @@ const ProjectCard = ({ project }) => (
             
             {/* Bill of Materials Table */}
             <div className="border border-black mb-4">
-                <div className="bg-black text-white font-mono text-[9px] font-bold px-2 py-1 flex justify-between">
+                <div className="bg-black text-white font-mono text-xs font-bold px-2 py-1 flex justify-between">
                     <span>ITEM / PARAMETER</span>
                     <span>QTY / VAL</span>
                 </div>
@@ -156,10 +156,10 @@ const ProjectCard = ({ project }) => (
         </div>
 
         <div>
-            <div className="font-mono text-[9px] font-bold text-slate-400 mb-1">TOOLS & STANDARDS</div>
+            <div className="font-mono text-xs font-bold text-slate-400 mb-1">TOOLS & STANDARDS</div>
             <div className="flex flex-wrap gap-1">
                 {project.tools.map(tool => (
-                    <span key={tool} className="border border-black px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 uppercase">
+                    <span key={tool} className="border border-black px-1.5 py-0.5 text-xs font-bold bg-slate-50 uppercase">
                         {tool}
                     </span>
                 ))}
@@ -227,7 +227,7 @@ const App = () => {
                     <div className="font-bold text-sm underline decoration-2 underline-offset-2 mb-3 uppercase">
                         1.0 General Notes
                     </div>
-                    <ul className="space-y-2 font-mono text-[10px] md:text-xs leading-tight text-slate-700">
+                    <ul className="space-y-2 font-mono text-xs md:text-sm leading-tight text-slate-700">
                         {data.notes.map((note, i) => (
                             <li key={i}>{note}</li>
                         ))}
@@ -240,7 +240,7 @@ const App = () => {
                      <div className="font-bold text-sm mb-3 uppercase flex items-center gap-2">
                         <MapPin size={14}/> 2.0 Location Data
                      </div>
-                     <div className="font-mono text-xs space-y-2">
+                     <div className="font-mono text-sm space-y-2">
                         <div className="flex justify-between border-b border-dotted border-slate-400 pb-1">
                             <span>BASE:</span> <span className="font-bold">{data.header.location}</span>
                         </div>
@@ -260,8 +260,8 @@ const App = () => {
                     </div>
                     {data.skills.map((skill, i) => (
                         <div key={i} className="p-3 border-b border-black last:border-0">
-                            <div className="font-mono text-[10px] font-bold text-slate-500 mb-1">{skill.cat}</div>
-                            <div className="font-sans text-xs font-bold leading-snug">
+                            <div className="font-mono text-xs font-bold text-slate-500 mb-1">{skill.cat}</div>
+                            <div className="font-sans text-sm font-bold leading-snug">
                                 {skill.items.join(', ')}
                             </div>
                         </div>
@@ -290,7 +290,8 @@ const App = () => {
                         <table className="w-full font-mono text-xs text-left">
                             <thead>
                                 <tr className="border-b border-black bg-slate-50">
-                                    <th className="p-2 border-r border-black w-16">ZONE</th>
+                                    {/* Widened Zone Column */}
+                                    <th className="p-2 border-r border-black w-24">ZONE</th> 
                                     <th className="p-2 border-r border-black">DESCRIPTION OF CHANGE / ROLE</th>
                                     <th className="p-2 border-r border-black w-24">DATE</th>
                                     <th className="p-2">APPR.</th>
@@ -299,10 +300,13 @@ const App = () => {
                             <tbody>
                                 {data.experience.map((job, i) => (
                                     <tr key={i} className="border-b border-black/20 last:border-0 hover:bg-yellow-50">
-                                        <td className="p-2 border-r border-black font-bold">{job.company.substring(0,4)}</td>
+                                        {/* Removed substring truncation so full company name shows */}
+                                        <td className="p-2 border-r border-black font-bold">{job.company}</td>
                                         <td className="p-2 border-r border-black">
-                                            <div className="font-bold">{job.role}</div>
-                                            <div className="text-slate-500 text-[10px]">{job.details}</div>
+                                            {/* Increased font size for Role */}
+                                            <div className="font-bold text-sm">{job.role}</div>
+                                            {/* Increased font size for Details */}
+                                            <div className="text-slate-600 text-xs mt-1 leading-relaxed">{job.details}</div>
                                         </td>
                                         <td className="p-2 border-r border-black">{job.date}</td>
                                         <td className="p-2 font-bold text-green-700">OK</td>
@@ -326,7 +330,7 @@ const App = () => {
                 </div>
 
                 <div className="flex justify-between items-center mt-12 border-t-2 border-black pt-4">
-                   <div className="text-[10px] font-mono">
+                   <div className="text-xs font-mono">
                       CAD FILE: PORTFOLIO_MASTER_ASM <br/>
                       SHEET 1 OF 1
                    </div>
